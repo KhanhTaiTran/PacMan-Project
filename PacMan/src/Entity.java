@@ -2,6 +2,7 @@ import java.awt.Image;
 import java.util.HashSet;
 
 public class Entity {
+
     int x;
     int y;
     int width;
