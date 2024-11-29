@@ -21,11 +21,11 @@ Follow these steps to set up and starting your work:
 ### Steps
 
 1. Clone this repository: *(Before cloning make sure you have directed to the correct address you want to clone the project to.)*
-   - Example: C:\Users\PV> git clone https://github.com/KhanhTaiTran/Project-OOP.git
+   - Example: C:\Users\PV> git clone https://github.com/KhanhTaiTran/PacMan-Project.git
    - This will clone our project to the PV file in the Users file in disk C.
 
 ```bash
-git clone https://github.com/KhanhTaiTran/Project-OOP.git
+git clone https://github.com/KhanhTaiTran/PacMan-Project.git
 ```
 
 ## Additional Information
