@@ -3,12 +3,16 @@ import java.util.HashSet;
 import java.util.Random;
 
 public class Ghost extends Entity {
-    char[] directions = { 'U', 'D', 'L', 'R' }; // up down left right
+    char[] directions = { 'U', 'D', 'L', 'R' };
     private Random random = new Random();
+    private Image normalImage;
+    private Image scaredImage;
 
-    public Ghost(Image image, int x, int y, int width, int height) {
-        super(image, x, y, width, height);
-        updateDirection(directions[random.nextInt(4)], 32, new HashSet<Entity>());
+    public Ghost(Image normalImage, Image scaredImage, int x, int y, int width, int height) {
+        super(normalImage, x, y, width, height);
+        this.normalImage = normalImage;
+        this.scaredImage = scaredImage;
+        updateDirection(directions[random.nextInt(4)], 32, new HashSet<>());
     }
 
     public void ghostMove(HashSet<Entity> walls, int boardWidth, int tileSize) {
@@ -27,4 +31,11 @@ public class Ghost extends Entity {
         }
     }
 
+    public void setScared() {
+        this.image = scaredImage;
+    }
+
+    public void resetImage() {
+        this.image = normalImage;
+    }
 }
