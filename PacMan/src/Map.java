@@ -76,7 +76,7 @@ public class Map {
                     case 'r' -> ghosts.add(new Ghost(redGhostImage, scaredGhostImage, x, y, tileSize, tileSize));
                     case 'P' -> pacman = new Pacman(pacmanRightImage, x, y, tileSize, tileSize);
                     case ' ' -> foods.add(new Entity(null, x + 14, y + 14, 4, 4));
-                    case 'f' -> powerFoods.add(new Entity(powerFoodImage, x, y, tileSize, tileSize));
+                    case 'f' -> powerFoods.add(new Entity(powerFoodImage, x + 8, y + 8, tileSize - 16, tileSize - 16));
                     case 'T' -> {
                         TeleportGate gate = new TeleportGate(x, y, tileSize, tileSize);
                         teleportGates.add(gate);
