@@ -42,16 +42,16 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
 
         // load images
-        wallImage = new ImageIcon(getClass().getResource("Images/wall.png")).getImage();
-        blueGhostImage = new ImageIcon(getClass().getResource("Images/blueGhost.png")).getImage();
-        orangeGhostImage = new ImageIcon(getClass().getResource("Images/orangeGhost.png")).getImage();
-        pinkGhostImage = new ImageIcon(getClass().getResource("Images/pinkGhost.png")).getImage();
-        redGhostImage = new ImageIcon(getClass().getResource("Images/redGhost.png")).getImage();
+        wallImage = new ImageIcon(getClass().getResource("resource/wall.png")).getImage();
+        blueGhostImage = new ImageIcon(getClass().getResource("resource/blueGhost.png")).getImage();
+        orangeGhostImage = new ImageIcon(getClass().getResource("resource/orangeGhost.png")).getImage();
+        pinkGhostImage = new ImageIcon(getClass().getResource("resource/pinkGhost.png")).getImage();
+        redGhostImage = new ImageIcon(getClass().getResource("resource/redGhost.png")).getImage();
 
-        pacmanUpImage = new ImageIcon(getClass().getResource("Images/pacmanUp.png")).getImage();
-        pacmanDownImage = new ImageIcon(getClass().getResource("Images/pacmanDown.png")).getImage();
-        pacmanLeftImage = new ImageIcon(getClass().getResource("Images/pacmanLeft.png")).getImage();
-        pacmanRightImage = new ImageIcon(getClass().getResource("Images/pacmanRight.png")).getImage();
+        pacmanUpImage = new ImageIcon(getClass().getResource("resource/pacmanUp.png")).getImage();
+        pacmanDownImage = new ImageIcon(getClass().getResource("resource/pacmanDown.png")).getImage();
+        pacmanLeftImage = new ImageIcon(getClass().getResource("resource/pacmanLeft.png")).getImage();
+        pacmanRightImage = new ImageIcon(getClass().getResource("resource/pacmanRight.png")).getImage();
 
         // load map
         map = new Map(wallImage, blueGhostImage, orangeGhostImage, pinkGhostImage, redGhostImage, pacmanRightImage);
@@ -62,8 +62,6 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
         // how long it takes to start timer, milliseconds gone between frames
         gameLoop = new Timer(50, this); // 20fps (1000/50)
         gameLoop.start();
-
-        audioEating();
     }
 
     public void paintComponent(Graphics g) {
@@ -134,20 +132,6 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
             }
         }
 
-    }
-
-    // TODO: Add audio for eating
-    public void audioEating() {
-        java.util.Timer timer = new java.util.Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Entity foodEaten = null;
-                if (foodEaten != null) {
-                    new SoundEffect().sound(new File("src\\SoundPacman\\gs_chomp.mp3"));
-                }
-            }
-        }, 0, 1000);
     }
 
     public void resetPositions() {
