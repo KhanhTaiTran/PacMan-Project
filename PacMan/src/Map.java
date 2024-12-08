@@ -3,13 +3,14 @@ import java.util.HashSet;
 
 public class Map {
 
-    private int rowCount = 21;
+    private int rowCount = 22;
     private int columnCount = 19;
     private int tileSize = 32;
 
     private Image wallImage, blueGhostImage, orangeGhostImage, pinkGhostImage,
             redGhostImage, pacmanRightImage, powerFoodImage, scaredGhostImage;
     private String[] tileMap = {
+            "0000000000000000000",
             "XXXXXXXXXXXXXXXXXXX",
             "X                 X",
             "XfXX XXX X XXX XXfX",
@@ -18,7 +19,7 @@ public class Map {
             "X    X   X   X    X",
             "XXXX XXX X XXX XXXX",
             "OOOX X       X XOOO",
-            "XXXX X XXrXX X XXXX",
+            "XXXX X X r X X XXXX",
             "T      XbpoX      T",
             "XXXX X XXXXX X XXXX",
             "OOOX X       X XOOO",
