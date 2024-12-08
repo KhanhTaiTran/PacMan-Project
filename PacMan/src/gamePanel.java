@@ -45,6 +45,9 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
 
         // play the start sound
         playStartSound();
+
+        // play background sound
+        playBackgroundSound();
     }
 
     private void loadImages() {
@@ -146,10 +149,10 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
         for (Ghost ghost : map.ghosts) {
             if (Checker.collision(ghost, map.pacman)) {
                 if (canEatGhost) {
-                    // TODO: ghost reset after 3s
                     ghost.reset();
                     score += 200;
                     soundEffect.playSound("gs_eatghost.wav");
+                    soundEffect.playSound("gs_returnghost.wav");
                 } else {
                     lives--;
                     soundEffect.playSound("gs_pacmandies.wav");
@@ -187,6 +190,7 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
         }
     }
 
+    // move ghosts
     private void moveGhosts() {
         for (Ghost ghost : map.ghosts) {
             ghost.ghostMove(map.walls, boardWidth, tileSize);
@@ -238,6 +242,14 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
         });
         startSoundTimer.setRepeats(false);
         startSoundTimer.start();
+    }
+
+    private void playBackgroundSound() {
+        Timer backgroundSoundTimer = new Timer(4000, e -> {
+            soundEffect.playLoopingSound("background.wav");
+        });
+        backgroundSoundTimer.setRepeats(false);
+        backgroundSoundTimer.start();
     }
 
     private void resetPositions() {
