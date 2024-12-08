@@ -15,6 +15,18 @@ public class Entity {
     int velocityX = 0;
     int velocityY = 0;
 
+    private MovementStrategy movementStrategy;
+
+    public void setMovementStrategy(MovementStrategy movementStrategy) {
+        this.movementStrategy = movementStrategy;
+    }
+
+    public void move(int tileSize, HashSet<Entity> walls) {
+        if (movementStrategy != null) {
+            movementStrategy.move(this, tileSize, walls);
+        }
+    }
+
     public Entity(Image image, int x, int y, int width, int height) {
         this.image = image;
         this.x = x;

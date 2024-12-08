@@ -14,7 +14,8 @@ public class App {
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        gamePanel pacmanGame = new gamePanel();
+        gamePanel pacmanGame = gamePanel.getInstance();
+
         frame.add(pacmanGame);
         frame.pack();
         pacmanGame.requestFocus();

@@ -1,11 +1,13 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Objects;
 import java.util.Random;
 import javax.swing.*;
-import java.io.File;
 
 public class gamePanel extends JPanel implements ActionListener, KeyListener {
+
+    // instance of gamePanel
+    private static gamePanel instance;
+
     private int rowCount = 21;
     private int columnCount = 19;
     private int tileSize = 32;
@@ -50,30 +52,29 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
         playBackgroundSound();
     }
 
+    // singleton pattern
+    public static synchronized gamePanel getInstance() {
+        if (instance == null) {
+            instance = new gamePanel();
+        }
+        return instance;
+    }
+
+    // load images using ImageFactory
     private void loadImages() {
-        wallImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("resource/wall.png"))).getImage();
-        blueGhostImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("resource/blueGhost.png")))
-                .getImage();
-        orangeGhostImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("resource/orangeGhost.png")))
-                .getImage();
-        pinkGhostImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("resource/pinkGhost.png")))
-                .getImage();
-        redGhostImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("resource/redGhost.png")))
-                .getImage();
-        scaredGhostImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("resource/scaredGhost.png")))
-                .getImage();
+        wallImage = ImageFactory.loadImage("resource/wall.png");
+        blueGhostImage = ImageFactory.loadImage("resource/blueGhost.png");
+        orangeGhostImage = ImageFactory.loadImage("resource/orangeGhost.png");
+        pinkGhostImage = ImageFactory.loadImage("resource/pinkGhost.png");
+        redGhostImage = ImageFactory.loadImage("resource/redGhost.png");
+        scaredGhostImage = ImageFactory.loadImage("resource/scaredGhost.png");
 
-        powerFoodImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("resource/powerFood.png")))
-                .getImage();
+        powerFoodImage = ImageFactory.loadImage("resource/powerFood.png");
 
-        pacmanUpImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("resource/pacmanUp.png")))
-                .getImage();
-        pacmanDownImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("resource/pacmanDown.png")))
-                .getImage();
-        pacmanLeftImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("resource/pacmanLeft.png")))
-                .getImage();
-        pacmanRightImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("resource/pacmanRight.png")))
-                .getImage();
+        pacmanUpImage = ImageFactory.loadImage("resource/pacmanUp.png");
+        pacmanDownImage = ImageFactory.loadImage("resource/pacmanDown.png");
+        pacmanLeftImage = ImageFactory.loadImage("resource/pacmanLeft.png");
+        pacmanRightImage = ImageFactory.loadImage("resource/pacmanRight.png");
     }
 
     private void initializeGhosts() {
@@ -83,6 +84,7 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
         }
     }
 
+    // paint the game
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -119,11 +121,9 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
     }
 
     private void run() {
-        map.pacman.x += map.pacman.velocityX;
-        map.pacman.y += map.pacman.velocityY;
-
-        checkCollisions();
+        map.pacman.move(tileSize, map.walls);
         moveGhosts();
+        checkCollisions();
         checkFoodCollision();
         checkPowerFoodCollision();
         checkTeleport();
@@ -193,7 +193,7 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
     // move ghosts
     private void moveGhosts() {
         for (Ghost ghost : map.ghosts) {
-            ghost.ghostMove(map.walls, boardWidth, tileSize);
+            ghost.move(tileSize, map.walls);
         }
     }
 
