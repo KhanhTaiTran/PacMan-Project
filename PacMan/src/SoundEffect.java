@@ -10,9 +10,13 @@ import javax.sound.sampled.AudioInputStream;
 
 public class SoundEffect {
     private Clip clip;
+    private boolean isMuted = false;
 
     // this method don't repeat sound
     public void playSound(String soundName) {
+        if (isMuted) {
+            return;
+        }
         try {
             URL soundFileURL = getClass().getResource("/Sound/" + soundName);
             if (soundFileURL == null) {
@@ -36,6 +40,9 @@ public class SoundEffect {
 
     // this method repeat sound
     public void playLoopingSound(String soundName) {
+        if (isMuted) {
+            return;
+        }
         try {
             URL soundFileURL = getClass().getResource("/Sound/" + soundName);
             if (soundFileURL == null) {
@@ -69,6 +76,20 @@ public class SoundEffect {
     public void stopSound() {
         if (clip != null && clip.isRunning()) {
             clip.stop();
+        }
+    }
+
+    public void mute() {
+        isMuted = true;
+        if (clip != null && clip.isRunning()) {
+            clip.stop();
+        }
+    }
+
+    public void unmute() {
+        isMuted = false;
+        if (clip != null) {
+            clip.start();
         }
     }
 }

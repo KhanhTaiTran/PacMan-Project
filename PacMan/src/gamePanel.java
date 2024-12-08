@@ -27,6 +27,11 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
     private SoundEffect soundEffect;
     private Random random = new Random();
 
+    private JButton pauseButton;
+    private JButton muteButton;
+    private boolean paused = false;
+    private boolean muted = false;
+
     public gamePanel() {
         int boardHeight = rowCount * tileSize;
         setPreferredSize(new Dimension(boardWidth, boardHeight));
@@ -50,6 +55,44 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
 
         // play background sound
         playBackgroundSound();
+
+        // pause button
+        pauseButton = new JButton("Pause");
+        pauseButton.setBounds(boardWidth - 100, 0, 100, 30);
+        pauseButton.addActionListener(e -> {
+            if (paused) {
+                gameLoop.start();
+                paused = false;
+                pauseButton.setText("Pause");
+                requestFocusInWindow(); // Request focus when resuming
+            } else {
+                gameLoop.stop();
+                paused = true;
+                pauseButton.setText("Resume");
+
+            }
+        });
+        setLayout(null);
+        add(pauseButton);
+
+        // mute button
+        muteButton = new JButton("Mute");
+        muteButton.setBounds(boardWidth - 200, 0, 100, 30);
+        muteButton.addActionListener(e -> {
+            if (muted) {
+                soundEffect.unmute();
+                muted = false;
+                muteButton.setText("Mute");
+                requestFocusInWindow();
+            } else {
+                soundEffect.mute();
+                muted = true;
+                muteButton.setText("Unmute");
+                requestFocusInWindow();
+            }
+        });
+        setLayout(null);
+        add(muteButton);
     }
 
     // singleton pattern
@@ -261,10 +304,12 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        run();
-        repaint();
-        if (gameOver) {
-            gameLoop.stop();
+        if (!paused) {
+            run();
+            repaint();
+            if (gameOver) {
+                gameLoop.stop();
+            }
         }
     }
 
