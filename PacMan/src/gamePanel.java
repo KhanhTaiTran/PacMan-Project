@@ -38,10 +38,13 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
         initializeGhosts();
 
         gameLoop = new Timer(50, this); // 20fps (1000/50)
-        gameLoop.start();
+        // gameLoop.start();
 
         // initial sound effect
         soundEffect = new SoundEffect();
+
+        // play the start sound
+        playStartSound();
     }
 
     private void loadImages() {
@@ -225,6 +228,16 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
                 break;
             }
         }
+    }
+
+    // play start sound and start the game loop after 4 seconds
+    private void playStartSound() {
+        soundEffect.playSound("gs_start.wav");
+        Timer startSoundTimer = new Timer(4000, e -> {
+            gameLoop.start();
+        });
+        startSoundTimer.setRepeats(false);
+        startSoundTimer.start();
     }
 
     private void resetPositions() {
