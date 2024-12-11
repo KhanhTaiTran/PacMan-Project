@@ -80,13 +80,15 @@ public class Map {
                     case 'f' -> powerFoods.add(new Entity(powerFoodImage, x + 8, y + 8, tileSize - 16, tileSize - 16));
                     case 'T' -> {
                         TeleportGate gate = new TeleportGate(x, y, tileSize, tileSize);
-                        teleportGates.add(gate);
+
                         if (firstGate == null) {
                             firstGate = gate;
+
                         } else {
                             gate.setTargetGate(firstGate);
                             firstGate.setTargetGate(gate);
-                            firstGate = null;
+                            teleportGates.add(gate);
+                            teleportGates.add(firstGate);
                         }
                     }
                 }

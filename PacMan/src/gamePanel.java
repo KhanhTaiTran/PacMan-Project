@@ -8,7 +8,7 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
     // instance of gamePanel
     private static gamePanel instance;
 
-    private int rowCount = 21;
+    private int rowCount = 22;
     private int columnCount = 19;
     private int tileSize = 32;
     private final int boardWidth = columnCount * tileSize;
@@ -29,6 +29,7 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
 
     private JButton pauseButton;
     private JButton muteButton;
+    private JButton restartButton;
     private boolean paused = false;
     private boolean muted = false;
 
@@ -93,6 +94,21 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
         });
         setLayout(null);
         add(muteButton);
+
+        // restart button
+        restartButton = new JButton("Restart");
+        restartButton.setBounds(boardWidth - 300, 0, 100, 30);
+        restartButton.addActionListener(e -> {
+            resetPositions();
+            map.loadMap();
+            lives = 3;
+            score = 0;
+            initializeGhosts();
+            gameLoop.start();
+            requestFocusInWindow();
+        });
+        setLayout(null);
+        add(restartButton);
     }
 
     // singleton pattern
@@ -169,7 +185,7 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
         checkCollisions();
         checkFoodCollision();
         checkPowerFoodCollision();
-        checkTeleport();
+        checkTeleportCollision();
 
         if (map.foods.isEmpty()) {
             gameLoop.stop();
@@ -212,7 +228,7 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
     private long lastTeleportTime = 0;
     private final long teleportDelay = 200; // 0.2s
 
-    private void checkTeleport() {
+    private void checkTeleportCollision() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastTeleportTime < teleportDelay) {
             return;
@@ -220,16 +236,21 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
 
         for (TeleportGate teleportGate : map.teleportGates) {
             if (Checker.collision(map.pacman, teleportGate)) {
-                for (TeleportGate otherGate : map.teleportGates) {
-                    if (teleportGate != otherGate) {
-                        map.pacman.x = otherGate.x;
-                        map.pacman.y = otherGate.y;
-                        break;
-                    }
-                }
+                TeleportGate targetGate = teleportGate.getTargetGate();
+                map.pacman.x = getTargetGateX(targetGate.x);
+                map.pacman.y = targetGate.y;
+
                 lastTeleportTime = currentTime;
                 break;
             }
+        }
+    }
+
+    private int getTargetGateX(int x) {
+        if (x == 0) {
+            return x + tileSize;
+        } else {
+            return x - tileSize;
         }
     }
 
