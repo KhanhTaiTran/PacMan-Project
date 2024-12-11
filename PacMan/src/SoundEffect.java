@@ -73,12 +73,6 @@ public class SoundEffect {
         }
     }
 
-    public void stopSound() {
-        if (clip != null && clip.isRunning()) {
-            clip.stop();
-        }
-    }
-
     public void mute() {
         isMuted = true;
         if (clip != null && clip.isRunning()) {

@@ -46,12 +46,11 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
         initializeGhosts();
 
         gameLoop = new Timer(50, this); // 20fps (1000/50)
-        // gameLoop.start();
 
         // initial sound effect
         soundEffect = new SoundEffect();
 
-        // play the start sound
+        // play the start sound and then start game
         playStartSound();
 
         // play background sound
