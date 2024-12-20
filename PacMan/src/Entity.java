@@ -38,17 +38,18 @@ public class Entity {
     }
 
     public void updateDirection(char direction, int tileSize, HashSet<Entity> walls) {
-        char prevDirection = this.direction;
+        char prevDirection = this.direction; // save the previous direction
         this.direction = direction;
-        updateVelocity(tileSize);
+        updateVelocity(tileSize); // update the velocity based on the new direction
         this.x += this.velocityX;
         this.y += this.velocityY;
         for (Entity wall : walls) {
             if (Checker.collision(this, wall)) {
+                // if there is a collision, revert the position and direction
                 this.x -= this.velocityX;
                 this.y -= this.velocityY;
                 this.direction = prevDirection;
-                updateVelocity(tileSize);
+                updateVelocity(tileSize); // update the velocity based on the previous direction
             }
         }
     }

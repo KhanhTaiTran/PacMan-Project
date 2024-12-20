@@ -98,7 +98,7 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
         restartButton = new JButton("Restart");
         restartButton.setBounds(boardWidth - 300, 0, 100, 30);
         restartButton.addActionListener(e -> {
-            resetPositions();
+            resetPacmanPositions();
             map.loadMap();
             lives = 3;
             score = 0;
@@ -189,7 +189,7 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
         if (map.foods.isEmpty()) {
             gameLoop.stop();
             JOptionPane.showMessageDialog(this, "You win!");
-            resetPositions();
+            resetPacmanPositions();
             map.loadMap();
             gameLoop.start();
         }
@@ -217,7 +217,7 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
                     if (lives == 0) {
                         gameOver = true;
                     } else {
-                        resetPositions();
+                        resetPacmanPositions();
                     }
                 }
             }
@@ -315,11 +315,10 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
         backgroundSoundTimer.start();
     }
 
-    private void resetPositions() {
+    private void resetPacmanPositions() {
         map.pacman.reset();
         map.pacman.velocityX = 0;
         map.pacman.velocityY = 0;
-        initializeGhosts();
     }
 
     @Override
@@ -345,7 +344,7 @@ public class gamePanel extends JPanel implements ActionListener, KeyListener {
     public void keyReleased(KeyEvent e) {
         if (gameOver) {
             map.loadMap();
-            resetPositions();
+            resetPacmanPositions();
             lives = 3;
             score = 0;
             gameOver = false;
